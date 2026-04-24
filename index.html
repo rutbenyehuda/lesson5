@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>משיכת נתוני מניות ליאהו פיננסים</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h2 { text-align: center; color: #333; }
+        label { display: block; margin-top: 15px; font-weight: bold; color: #555; }
+        input, select, button { width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc; box-sizing: border-box; }
+        button { background-color: #28a745; color: white; font-size: 16px; border: none; cursor: pointer; margin-top: 20px; font-weight: bold; }
+        button:hover { background-color: #218838; }
+        #message { margin-top: 20px; text-align: center; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>יצירת גיליון מניות</h2>
+    
+    <label>טיקרים (מופרדים בפסיק, למשל: AAPL,MSFT):</label>
+    <input type="text" id="tickers" placeholder="AAPL, MSFT, GOOG" required>
+
+    <label>תאריך התחלה:</label>
+    <input type="date" id="startDate" required>
+
+    <label>תאריך סיום:</label>
+    <input type="date" id="endDate" required>
+
+    <label>תדירות:</label>
+    <select id="frequency">
+        <option value="1d">יומי</option>
+        <option value="1wk">שבועי</option>
+        <option value="1mo">חודשי</option>
+    </select>
+
+    <button onclick="sendData()">צור גיליון נתונים</button>
+
+    <div id="message"></div>
+</div>
+
+<script>
+    // ----------------------------------------------------
+    // החלף את המחרוזת למטה בקישור שקיבלת מגוגל!
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyE353Rrls566X1QL1IC6J5zIzzjXiGWc7tiXuASQc/dev';
+    // ----------------------------------------------------
+
+    async function sendData() {
+        const messageDiv = document.getElementById('message');
+        const tickersInput = document.getElementById('tickers').value;
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+        const frequency = document.getElementById('frequency').value;
+
+        if (!tickersInput || !startDate || !endDate) {
+            messageDiv.style.color = 'red';
+            messageDiv.innerText = 'נא למלא את כל השדות.';
+            return;
+        }
+
+        const tickersArray = tickersInput.split(',').map(t => t.trim().toUpperCase());
+
+        const payload = {
+            tickers: tickersArray,
+            startDate: startDate,
+            endDate: endDate,
+            frequency: frequency
+        };
+
+        messageDiv.style.color = 'blue';
+        messageDiv.innerText = 'שולח בקשה לשרת... (זה עשוי לקחת מספר שניות)';
+
+        try {
+            const response = await fetch(WEB_APP_URL, {
+                method: 'POST',
+                body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                messageDiv.style.color = 'green';
+                messageDiv.innerHTML = `הגיליון נוצר בהצלחה!<br><a href="${result.sheetUrl}" target="_blank">לחץ כאן לצפייה בגיליון</a>`;
+            } else {
+                messageDiv.style.color = 'red';
+                messageDiv.innerText = 'שגיאה: ' + result.error;
+            }
+        } catch (error) {
+            messageDiv.style.color = 'red';
+            messageDiv.innerText = 'אירעה שגיאה בתקשורת עם השרת.';
+            console.error(error);
+        }
+    }
+</script>
+
+</body>
+</html>
