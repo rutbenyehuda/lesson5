@@ -3,60 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>משיכת נתוני מניות ליאהו פיננסים</title>
+    <title>רכז נתוני מניות</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .container { background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
-        h2 { text-align: center; color: #333; }
-        label { display: block; margin-top: 15px; font-weight: bold; color: #555; }
-        input, select, button { width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc; box-sizing: border-box; }
-        button { background-color: #28a745; color: white; font-size: 16px; border: none; cursor: pointer; margin-top: 20px; font-weight: bold; }
-        button:hover { background-color: #218838; }
-        #message { margin-top: 20px; text-align: center; font-weight: bold; }
+        :root {
+            --primary-pink: #d495a8; /* ורוד עתיק אלגנטי */
+            --hover-pink: #bf7a8e;
+            --bg-color: #fcf7f8;
+            --card-bg: #ffffff;
+            --text-main: #2b2b2b;
+            --text-muted: #6b6b6b;
+            --input-border: #e0e0e0;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: var(--bg-color); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container { 
+            background-color: var(--card-bg); 
+            padding: 40px; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 30px rgba(212, 149, 168, 0.15); 
+            width: 100%; 
+            max-width: 450px; 
+        }
+
+        .header-texts {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h2 { 
+            color: var(--text-main); 
+            margin: 0 0 5px 0;
+            font-size: 26px;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-weight: 600; 
+            color: var(--text-main); 
+            font-size: 14px;
+        }
+
+        input, select { 
+            width: 100%; 
+            padding: 12px 15px; 
+            border-radius: 8px; 
+            border: 1px solid var(--input-border); 
+            box-sizing: border-box; 
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background-color: #fafafa;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-pink);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(212, 149, 168, 0.2);
+        }
+
+        button.submit-btn { 
+            background-color: var(--primary-pink); 
+            color: white; 
+            font-size: 16px; 
+            border: none; 
+            cursor: pointer; 
+            margin-top: 10px; 
+            font-weight: bold; 
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+        }
+
+        button.submit-btn:hover { 
+            background-color: var(--hover-pink); 
+        }
+
+        button.submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* עיצוב אזור ההודעות */
+        #message-area { 
+            margin-top: 25px; 
+            text-align: center; 
+            border-radius: 8px;
+            display: none; /* מוסתר כברירת מחדל */
+        }
+
+        .status-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        .loading-text { color: var(--primary-pink); }
+        .error-text { color: #dc3545; }
+        
+        /* עיצוב הודעת ההצלחה */
+        .success-box {
+            background-color: #f9f0f3;
+            border: 1px solid #eed6df;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .success-title {
+            color: var(--hover-pink);
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .success-subtitle {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .sheet-link-btn {
+            display: inline-block;
+            background-color: #2b2b2b;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+            width: 80%;
+        }
+
+        .sheet-link-btn:hover {
+            background-color: #404040;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>יצירת גיליון מניות</h2>
+    <div class="header-texts">
+        <h2>יצירת גיליון מניות</h2>
+        <p class="subtitle">מנוע אחזור ואיחוד נתונים</p>
+    </div>
     
-    <label>טיקרים (מופרדים בפסיק, למשל: AAPL,MSFT):</label>
-    <input type="text" id="tickers" placeholder="AAPL, MSFT, GOOG" required>
+    <div class="form-group">
+        <label>טיקרים (מופרדים בפסיק, למשל: AAPL,MSFT):</label>
+        <input type="text" id="tickers" placeholder="לדוגמה: AAPL, MSFT" required>
+    </div>
 
-    <label>תאריך התחלה:</label>
-    <input type="date" id="startDate" required>
+    <div style="display: flex; gap: 15px;">
+        <div class="form-group" style="flex: 1;">
+            <label>תאריך התחלה:</label>
+            <input type="date" id="startDate" required>
+        </div>
 
-    <label>תאריך סיום:</label>
-    <input type="date" id="endDate" required>
+        <div class="form-group" style="flex: 1;">
+            <label>תאריך סיום:</label>
+            <input type="date" id="endDate" required>
+        </div>
+    </div>
 
-    <label>תדירות:</label>
-    <select id="frequency">
-        <option value="1d">יומי</option>
-        <option value="1wk">שבועי</option>
-        <option value="1mo">חודשי</option>
-    </select>
+    <div class="form-group">
+        <label>תדירות דגימה:</label>
+        <select id="frequency">
+            <option value="1d">יומי (Daily)</option>
+            <option value="1wk">שבועי (Weekly)</option>
+            <option value="1mo">חודשי (Monthly)</option>
+        </select>
+    </div>
 
-    <button onclick="sendData()">צור גיליון נתונים</button>
+    <button class="submit-btn" onclick="sendData()">בצע איחוד וצור גיליון</button>
 
-    <div id="message"></div>
+    <div id="message-area">
+        </div>
 </div>
 
 <script>
     // ----------------------------------------------------
-    // החלף את המחרוזת למטה בקישור שקיבלת מגוגל!
+    // החליפי את המחרוזת למטה בקישור שקיבלת מגוגל!
     const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyS8UugcWguvIDyj8Gl8evdNEOyU3WaO_R6oTQ2I4Kobvx_V75cj1yEQYzs_hXRgAU5/exec';
     // ----------------------------------------------------
 
     async function sendData() {
-        const messageDiv = document.getElementById('message');
+        const messageArea = document.getElementById('message-area');
         const tickersInput = document.getElementById('tickers').value;
         const startDate = document.getElementById('startDate').value;
         const endDate = document.getElementById('endDate').value;
         const frequency = document.getElementById('frequency').value;
 
+        // איפוס תצוגה
+        messageArea.style.display = 'block';
+        messageArea.innerHTML = '';
+        messageArea.className = '';
+
         if (!tickersInput || !startDate || !endDate) {
-            messageDiv.style.color = 'red';
-            messageDiv.innerText = 'נא למלא את כל השדות.';
+            messageArea.innerHTML = '<div class="status-text error-text">נא למלא את כל השדות.</div>';
             return;
         }
 
@@ -69,27 +234,36 @@
             frequency: frequency
         };
 
-        messageDiv.style.color = 'blue';
-        messageDiv.innerText = 'שולח בקשה לשרת... (זה עשוי לקחת מספר שניות)';
+        // הצגת מצב טעינה
+        messageArea.innerHTML = '<div class="status-text loading-text">⏳ מתקשר עם השרת ומעבד נתונים...</div>';
 
         try {
+            // שליחה מאובטחת שעוקפת CORS
             const response = await fetch(WEB_APP_URL, {
                 method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8', 
+                },
                 body: JSON.stringify(payload)
             });
 
             const result = await response.json();
 
-            if (result.success) {
-                messageDiv.style.color = 'green';
-                messageDiv.innerHTML = `הגיליון נוצר בהצלחה!<br><a href="${result.sheetUrl}" target="_blank">לחץ כאן לצפייה בגיליון</a>`;
+            if (result.success || result.status === "success") {
+                // תצוגת ההצלחה המעוצבת
+                messageArea.innerHTML = `
+                    <div class="success-box">
+                        <div class="success-title">✓ העיבוד הושלם בהצלחה!</div>
+                        <div class="success-subtitle">הגיליון נוצר ב-Drive שלך ושותף לצפייה לכל מי שיש לו את הקישור.</div>
+                        <a href="${result.sheetUrl}" target="_blank" class="sheet-link-btn">פתח את הגיליון ב-Google Sheets</a>
+                    </div>
+                `;
             } else {
-                messageDiv.style.color = 'red';
-                messageDiv.innerText = 'שגיאה: ' + result.error;
+                messageArea.innerHTML = `<div class="status-text error-text">שגיאה: ${result.error}</div>`;
             }
         } catch (error) {
-            messageDiv.style.color = 'red';
-            messageDiv.innerText = 'אירעה שגיאה בתקשורת עם השרת.';
+            messageArea.innerHTML = '<div class="status-text error-text">אירעה שגיאה בתקשורת עם השרת. ודאי שכתובת ה-URL מעודכנת.</div>';
             console.error(error);
         }
     }
