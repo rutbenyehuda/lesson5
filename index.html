@@ -6,7 +6,7 @@
     <title>רכז נתוני מניות</title>
     <style>
         :root {
-            --primary-pink: #d495a8; /* ורוד עתיק אלגנטי */
+            --primary-pink: #d495a8;
             --hover-pink: #bf7a8e;
             --bg-color: #fcf7f8;
             --card-bg: #ffffff;
@@ -33,133 +33,53 @@
             border-radius: 16px; 
             box-shadow: 0 10px 30px rgba(212, 149, 168, 0.15); 
             width: 100%; 
-            max-width: 450px; 
+            max-width: 500px; 
         }
 
-        .header-texts {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+        .header-texts { text-align: center; margin-bottom: 30px; }
+        h2 { color: var(--text-main); margin: 0 0 5px 0; font-size: 26px; }
+        p.subtitle { color: var(--text-muted); margin: 0; font-size: 14px; }
 
-        h2 { 
-            color: var(--text-main); 
-            margin: 0 0 5px 0;
-            font-size: 26px;
-        }
-
-        p.subtitle {
-            color: var(--text-muted);
-            margin: 0;
-            font-size: 14px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label { 
-            display: block; 
-            margin-bottom: 8px; 
-            font-weight: 600; 
-            color: var(--text-main); 
-            font-size: 14px;
-        }
-
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-main); font-size: 14px; }
         input, select { 
-            width: 100%; 
-            padding: 12px 15px; 
-            border-radius: 8px; 
-            border: 1px solid var(--input-border); 
-            box-sizing: border-box; 
-            font-size: 15px;
-            font-family: inherit;
-            transition: all 0.3s ease;
-            background-color: #fafafa;
+            width: 100%; padding: 12px 15px; border-radius: 8px; 
+            border: 1px solid var(--input-border); box-sizing: border-box; 
+            font-size: 15px; background-color: #fafafa; transition: all 0.3s ease;
         }
-
         input:focus, select:focus {
-            outline: none;
-            border-color: var(--primary-pink);
-            background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(212, 149, 168, 0.2);
+            outline: none; border-color: var(--primary-pink);
+            background-color: #ffffff; box-shadow: 0 0 0 3px rgba(212, 149, 168, 0.2);
         }
 
         button.submit-btn { 
-            background-color: var(--primary-pink); 
-            color: white; 
-            font-size: 16px; 
-            border: none; 
-            cursor: pointer; 
-            margin-top: 10px; 
-            font-weight: bold; 
-            width: 100%;
-            padding: 14px;
-            border-radius: 8px;
-            transition: background-color 0.3s ease, transform 0.1s ease;
+            background-color: var(--primary-pink); color: white; font-size: 16px; 
+            border: none; cursor: pointer; margin-top: 10px; font-weight: bold; 
+            width: 100%; padding: 14px; border-radius: 8px; transition: background-color 0.3s ease;
         }
+        button.submit-btn:hover { background-color: var(--hover-pink); }
 
-        button.submit-btn:hover { 
-            background-color: var(--hover-pink); 
-        }
-
-        button.submit-btn:active {
-            transform: scale(0.98);
-        }
-
-        /* עיצוב אזור ההודעות */
-        #message-area { 
-            margin-top: 25px; 
-            text-align: center; 
-            border-radius: 8px;
-            display: none; /* מוסתר כברירת מחדל */
-        }
-
-        .status-text {
-            font-weight: bold;
-            margin-bottom: 15px;
-            font-size: 15px;
-        }
-
+        #message-area { margin-top: 25px; text-align: center; border-radius: 8px; display: none; }
+        .status-text { font-weight: bold; margin-bottom: 15px; font-size: 15px; }
         .loading-text { color: var(--primary-pink); }
         .error-text { color: #dc3545; }
         
-        /* עיצוב הודעת ההצלחה */
-        .success-box {
-            background-color: #f9f0f3;
-            border: 1px solid #eed6df;
-            padding: 20px;
-            border-radius: 12px;
-        }
-
-        .success-title {
-            color: var(--hover-pink);
-            font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-
-        .success-subtitle {
-            color: var(--text-muted);
-            font-size: 13px;
-            margin-bottom: 20px;
-        }
+        .success-box { background-color: #f9f0f3; border: 1px solid #eed6df; padding: 20px; border-radius: 12px; }
+        .success-title { color: var(--hover-pink); font-weight: bold; font-size: 18px; margin-bottom: 5px; }
+        .success-subtitle { color: var(--text-muted); font-size: 13px; margin-bottom: 15px; }
 
         .sheet-link-btn {
-            display: inline-block;
-            background-color: #2b2b2b;
-            color: white;
-            text-decoration: none;
-            padding: 12px 20px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 14px;
-            transition: background-color 0.3s ease;
-            width: 80%;
+            display: inline-block; background-color: #2b2b2b; color: white;
+            text-decoration: none; padding: 12px 20px; border-radius: 6px;
+            font-weight: bold; font-size: 14px; transition: background-color 0.3s ease; width: 80%; margin-bottom: 15px;
         }
+        .sheet-link-btn:hover { background-color: #404040; }
 
-        .sheet-link-btn:hover {
-            background-color: #404040;
-        }
+        /* עיצוב הטבלה המקדימה בסגנון ורוד */
+        .preview-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
+        .preview-table th { background-color: var(--primary-pink); color: white; padding: 8px; border: 1px solid #c98a9d; }
+        .preview-table td { padding: 6px; border: 1px solid #eed6df; background-color: white; color: #333; }
+        .preview-table tr:nth-child(even) td { background-color: #fdfafb; }
     </style>
 </head>
 <body>
@@ -167,11 +87,11 @@
 <div class="container">
     <div class="header-texts">
         <h2>יצירת גיליון מניות</h2>
-        <p class="subtitle">מנוע אחזור ואיחוד נתונים</p>
+        <p class="subtitle">מנוע איחוד נתונים ויצירת CSV</p>
     </div>
     
     <div class="form-group">
-        <label>טיקרים (מופרדים בפסיק, למשל: AAPL,MSFT):</label>
+        <label>טיקרים (מופרדים בפסיק):</label>
         <input type="text" id="tickers" placeholder="לדוגמה: AAPL, MSFT" required>
     </div>
 
@@ -180,7 +100,6 @@
             <label>תאריך התחלה:</label>
             <input type="date" id="startDate" required>
         </div>
-
         <div class="form-group" style="flex: 1;">
             <label>תאריך סיום:</label>
             <input type="date" id="endDate" required>
@@ -196,15 +115,14 @@
         </select>
     </div>
 
-    <button class="submit-btn" onclick="sendData()">בצע איחוד וצור גיליון</button>
+    <button class="submit-btn" onclick="sendData()">בצע איחוד והורד CSV</button>
 
-    <div id="message-area">
-        </div>
+    <div id="message-area"></div>
 </div>
 
 <script>
     // ----------------------------------------------------
-    // החליפי את המחרוזת למטה בקישור שקיבלת מגוגל!
+    // הדביקי כאן את ה-Web App URL שלך מגוגל סקריפט!
     const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyS8UugcWguvIDyj8Gl8evdNEOyU3WaO_R6oTQ2I4Kobvx_V75cj1yEQYzs_hXRgAU5/exec';
     // ----------------------------------------------------
 
@@ -215,55 +133,61 @@
         const endDate = document.getElementById('endDate').value;
         const frequency = document.getElementById('frequency').value;
 
-        // איפוס תצוגה
         messageArea.style.display = 'block';
-        messageArea.innerHTML = '';
-        messageArea.className = '';
-
+        
         if (!tickersInput || !startDate || !endDate) {
             messageArea.innerHTML = '<div class="status-text error-text">נא למלא את כל השדות.</div>';
             return;
         }
 
-        const tickersArray = tickersInput.split(',').map(t => t.trim().toUpperCase());
-
         const payload = {
-            tickers: tickersArray,
+            tickers: tickersInput.split(',').map(t => t.trim().toUpperCase()),
             startDate: startDate,
             endDate: endDate,
             frequency: frequency
         };
 
-        // הצגת מצב טעינה
-        messageArea.innerHTML = '<div class="status-text loading-text">⏳ מתקשר עם השרת ומעבד נתונים...</div>';
+        messageArea.innerHTML = '<div class="status-text loading-text">⏳ מפיק קובץ CSV... המתן...</div>';
 
         try {
-            // שליחה מאובטחת שעוקפת CORS
             const response = await fetch(WEB_APP_URL, {
                 method: 'POST',
                 mode: 'cors',
-                headers: {
-                    'Content-Type': 'text/plain;charset=utf-8', 
-                },
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify(payload)
             });
 
             const result = await response.json();
 
-            if (result.success || result.status === "success") {
-                // תצוגת ההצלחה המעוצבת
+            if (result.status === "success") {
+                // יצירת טבלת התצוגה המקדימה ב-HTML
+                let tableHTML = '<table class="preview-table">';
+                result.previewData.forEach((row, index) => {
+                    tableHTML += '<tr>';
+                    row.forEach(cell => {
+                        let cellContent = cell !== undefined && cell !== null ? cell : "";
+                        // שורה 0 היא הכותרת
+                        if(index === 0) { tableHTML += `<th>${cellContent}</th>`; } 
+                        else { tableHTML += `<td>${cellContent}</td>`; }
+                    });
+                    tableHTML += '</tr>';
+                });
+                tableHTML += '</table>';
+
                 messageArea.innerHTML = `
                     <div class="success-box">
-                        <div class="success-title">✓ העיבוד הושלם בהצלחה!</div>
-                        <div class="success-subtitle">הגיליון נוצר ב-Drive שלך ושותף לצפייה לכל מי שיש לו את הקישור.</div>
-                        <a href="${result.sheetUrl}" target="_blank" class="sheet-link-btn">פתח את הגיליון ב-Google Sheets</a>
+                        <div class="success-title">✓ קובץ ה-CSV מוכן!</div>
+                        <div class="success-subtitle">הנתונים אוחדו בהצלחה. לחץ למטה כדי להוריד את הקובץ.</div>
+                        <a href="${result.downloadUrl}" target="_blank" class="sheet-link-btn">⬇️ הורד קובץ CSV</a>
+                        <div style="font-size:12px; font-weight:bold; margin-top:10px; color:var(--text-main);">תצוגה מקדימה:</div>
+                        ${tableHTML}
                     </div>
                 `;
             } else {
                 messageArea.innerHTML = `<div class="status-text error-text">שגיאה: ${result.error}</div>`;
             }
         } catch (error) {
-            messageArea.innerHTML = '<div class="status-text error-text">אירעה שגיאה בתקשורת עם השרת. ודאי שכתובת ה-URL מעודכנת.</div>';
+            messageArea.innerHTML = '<div class="status-text error-text">אירעה שגיאה בתקשורת עם השרת.</div>';
             console.error(error);
         }
     }
